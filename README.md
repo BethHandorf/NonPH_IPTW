@@ -1,5 +1,6 @@
 # NonPH_IPTW
 Code to run simulations for manuscript "Analysis of survival data with non-proportional hazards: A comparison of propensity score weighted methods"
+https://arxiv.org/abs/2009.00785
 
 Contents  
 simulated_covariates.csv - This file contains simulated (synthetic) sets of covariates constructed to be similar to those found in the National Cancer Database.  
