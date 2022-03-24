@@ -5,7 +5,7 @@
 # 2020-07-07
 
 #Run all methods and get bootstrap standard errors for one simulated dataset 
-#Required inputs: "dfile" which contains every simulated dataset (with seeds 1-500)
+#Required inputs: "dfile" which contains example simulated datasets (with seeds 1-5)
 #                 "simulated_covariates.csv" which contains the matrix of covariates
 #                 "execute_all_methods.R" which contains the R code to run each survival method
 
@@ -19,28 +19,38 @@ start.time<-Sys.time()
 #Some code to extract the inputs from the command line, modified from
 #http://yangfeng.wordpress.com/2009/09/03/including-arguments-in-r-cmd-batch-mode/
 ##First read in the arguments listed at the command line
-args=(commandArgs(TRUE))
+#args=(commandArgs(TRUE))
 
 ##args is now a list of character vectors
 ## First check to see if arguments are passed.
 ## Then cycle through each element of the list and evaluate the expressions.
-if(length(args)==0){
-  print("No arguments supplied.")
+# if(length(args)==0){
+#   print("No arguments supplied.")
+# 
+#   dfile<-"FNPH.2_SNPH.0.25_TE.0.69_SS.5000.csv"
+#   seed=101
+#   setwd("local input dir")
+#   
+#   resdir<-"local results dir"
+#   
+# }else{
+# 
+#   dfile <- args[1]
+#   seed <- as.double(args[2])
+#   setwd("remote input dir")
+#   resdir<-"remote results dir"
+# }
 
-  dfile<-"FNPH.2_SNPH.0.25_TE.0.69_SS.5000.csv"
-  seed=101
+dfile<-"FNPH.1_SNPH.0.25_TE.-0.69_SS.5000_seedRange.1-5.csv"
+seed=5   #For example run, 1-5 will work for seed
+#setwd("U:\\methods work\\propensity scores with non-proportional hazards\\BiometricalJ_submission\\code")
+   
+#resdir<-"U:\\methods work\\propensity scores with non-proportional hazards\\BiometricalJ_submission\\code"
 
-  
-}else{
-
-  dfile <- args[1]
-  seed <- as.double(args[2])
-
-}
-
-
+#Change the directory as needed
 setwd("./")
 resdir<-getwd()
+
 
 print(dfile)
 print(seed)
@@ -207,9 +217,8 @@ M<-500
 d.med.boot<-d.rms.boot<-d.2y.boot<-d.5y.boot<-d.10y.boot<-matrix(rep(NA,M*length(methods)),nrow=M)
 colnames(d.med.boot)<-colnames(d.rms.boot)<-colnames(d.2y.boot)<-colnames(d.5y.boot)<-colnames(d.10y.boot)<-methods
 
-set.seed(seed)
-
 #Run bootstrap resampling
+set.seed(seed)
 for (j in 1:M) {
   res.tmp<-runAllMethods(data=dataj,d=sample(seq(1:dim(dataj)[1]),replace=TRUE))
   

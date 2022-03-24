@@ -30,9 +30,9 @@ args=(commandArgs(TRUE))
 if(length(args)==0){
   print("No arguments supplied.")
   ##supply default values
-  FNPH=1  #1=log-time; Note - separate code for the piecewise linear form
+  FNPH=2  #2=linear piecewise
   SNPH=0.25
-  TE = -0.67
+  TE=-log(2)
   SS<-2500*2
   startSeed<-1
   endSeed<-5
@@ -120,14 +120,15 @@ for (i in startSeed:endSeed) {
   #Simulate both potential survival outcomes with seed
   set.seed(i)
   Time.PO.0 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
-                            x = as.data.frame(design.matrix.surv.PO.0),
-                            tde = c(trt = SNPH), tdefunction = "log", interval = c(1e-15, 1000))
+                       x = as.data.frame(design.matrix.surv.PO.0),
+                       tde = c(trt = -1*TE), tdefunction = function(x) as.numeric(x<2),
+                       interval = c(1e-08, 5000))  #cancel out TE until time 2
 
   set.seed(i)
   Time.PO.1 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
-                            x = as.data.frame(design.matrix.surv.PO.1),
-                            tde = c(trt = SNPH), tdefunction = "log")
-
+                       x = as.data.frame(design.matrix.surv.PO.1),
+                       tde = c(trt = -1*TE), tdefunction = function(x) as.numeric(x<2),
+                       interval = c(1e-08, 5000))
 
   #simulate censoring time
   censtime<-runif(dim(sim.covariates)[1],min=8, max=15)
