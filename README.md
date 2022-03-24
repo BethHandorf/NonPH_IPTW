@@ -72,7 +72,7 @@ execute_all_methods.R - This R code obtains estimates of survival outcomes using
 
 results_graphs_v2.R - this R code creates Figure 1 and Figure A1
 
-##5. Code which runs the clinical examples from section 5
+## 5. Code which runs the clinical examples from section 5
 Note: *Data to run this code is not available here due to restrictions from the NCDB data use agreement*
 
 sarcoma.R - This file runs the analysis described in section 5.1 and creates Figure 2 and the data for Table 2. 
