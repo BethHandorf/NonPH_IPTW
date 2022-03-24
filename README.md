@@ -9,7 +9,7 @@ Notes: The user will need to set their working directory to a folder containing 
 
 Contents
 
-1. Data files
+##1. Data files
 
 simulated_covariates.csv - This file contains simulated (synthetic) sets of covariates constructed to be similar to those found in the National Cancer Database.
 
@@ -20,7 +20,7 @@ Bias_results_graph_input.csv - this file contains the numerical results used to 
 Var_results_graph_input.csv - this file contains the numerical results used to create Figure A1
 
 
-2. Example run of selected simulations 
+##2. Example run of selected simulations 
 
 Note: Because of the bootstrap step, each itteration of the simulation was highly time-intensive to run.  Therefore, all simulations were run in parallel.  We therefore provide a way for the user to run a few itterations with a subset of the simulated datasets.
 
@@ -29,9 +29,9 @@ run_all_methods_example.R - This R code uses one simulated dataset (of itteratio
 execute_all_methods.R - This R code obtains estimates of survival outcomes using each of the methods described in the manuscript.
 
 
-3. Code which fully re-creates the simulation results presented in section 4
+##3. Code which fully re-creates the simulation results presented in section 4
 
-3A. Create datasets
+###3A. Create datasets
 
 Data was simulated using seeds 1-500.  Successive simulations were appended to a single file.  
 
@@ -60,7 +60,7 @@ SS=1000
 
 simulate_datasets_PWC.R - This additional file generates simulated treatments and outcomes for patients. The functional form of the non-proportionality is a piece-wise effect (Scenario 2). Each simulated dataset is appended to a large file which will contain all simulated datasets for later processing. This code is designed to be run in batch mode.
 
-3B. Run analysis methods
+###B. Run analysis methods
 
 Each simulated set is run in parallel.  The input datafile is identified, as is the particular seed of interest.  These should be entered via the command line.  The script then looks up the rows for the respective seeds in the previously generated simulated datafiles.  
 
@@ -68,11 +68,11 @@ run_all_methods_batch.R - This R code selects a single simulated dataset and obt
 
 execute_all_methods.R - This R code obtains estimates of survival outcomes using each of the methods described in the manuscript.
 
-4. Code which recreates simulation figures
+##4. Code which recreates simulation figures
 
 results_graphs_v2.R - this R code creates Figure 1 and Figure A1
 
-5. Code which runs the clinical examples from section 5
+##5. Code which runs the clinical examples from section 5
 Note: *Data to run this code is not available here due to restrictions from the NCDB data use agreement*
 
 sarcoma.R - This file runs the analysis described in section 5.1 and creates Figure 2 and the data for Table 2. 
