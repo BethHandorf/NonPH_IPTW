@@ -72,6 +72,33 @@ dat$psweight2<-(dat$surgery*p.surgery/ps2)+((1-dat$surgery)*(1-p.surgery)/(1-ps2
 
 dat<-dat[dat$ps2>.1 & dat$ps2 <.9,]
 
+#Balance statistics
+datatmp<-dat
+
+datatmp$FACILITY_LOCATION_CD<-as.factor(datatmp$FACILITY_LOCATION_CD)
+datatmp$FACILITY_TYPE_CD<-as.factor(datatmp$FACILITY_TYPE_CD)
+datatmp$SEX<-as.factor(datatmp$SEX)
+datatmp$INSURANCE_STATUS<-as.factor(datatmp$INSURANCE_STATUS)
+datatmp$MED_INC_QUAR_12<-as.factor(datatmp$MED_INC_QUAR_12)
+datatmp$NO_HSD_QUAR_12<-as.factor(datatmp$NO_HSD_QUAR_12)
+datatmp$CDCC_TOTAL<-as.factor(datatmp$CDCC_TOTAL)
+datatmp$YEAR_OF_DIAGNOSIS<-as.factor(datatmp$YEAR_OF_DIAGNOSIS)
+datatmp$hist_grp<-as.factor(datatmp$hist_grp)
+datatmp$raceCat<-as.factor(datatmp$raceCat)
+datatmp$hispanic<-as.factor(datatmp$hispanic)
+datatmp$urban<-as.factor(datatmp$urban)
+datatmp$Grade_cat<-as.factor(datatmp$Grade_cat)
+
+
+
+bal<-bal.stat(datatmp, vars=c("FACILITY_TYPE_CD","FACILITY_LOCATION_CD","SEX","INSURANCE_STATUS","MED_INC_QUAR_12",
+"NO_HSD_QUAR_12","CDCC_TOTAL","YEAR_OF_DIAGNOSIS","hist_grp","raceCat","hispanic","urban","Grade_cat")
+              , treat.var="surgery",
+              w.all=datatmp$psweight2,
+              #w.all=1, #check balance if unweighted
+              sampw=1,
+              estimand="ATE",multinom=FALSE)
+
 write.csv(dat)
 
 ################### Create Figure 3
