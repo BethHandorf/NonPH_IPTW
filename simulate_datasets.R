@@ -135,6 +135,7 @@ for (i in startSeed:endSeed) {
     timePO.1 = Time.PO.1$eventtime
   }
   
+  # Piecewise constant
   if(FNPH==2){
 
     set.seed(i)
