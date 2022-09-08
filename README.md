@@ -35,12 +35,14 @@ execute_all_methods.R - This R code obtains estimates of survival outcomes using
 
 Data was simulated using seeds 1-500.  Successive simulations were appended to a single file.  
 
-simulate_datasets_logTime.R - This R code generates simulated treatments and outcomes for patients.  Each simulated dataset is appended to a large file which will contain all simulated datasets for later processing. This code is designed to be run in batch mode.  Parameters can be modified by entering arguments into the command line call for this function.  Alternatively, this can be done manually in the code file.
+simulate_datasets.R - This R code generates simulated treatments and outcomes for patients.  Each simulated dataset is appended to a large file which will contain all simulated datasets for later processing. This code is designed to be run in batch mode.  Parameters can be modified by entering arguments into the command line call for this function.  Alternatively, this can be done manually in the code file.
 
 Here are the base case values (scenario 1)
 SNPH=0.25 (strength of the non-proportional hazards as a function of log time)
 TE=-log(2) (treatment effect at time 0)
 SS=5000 (sample size)
+
+Scenario 2 uses a piece-wise constant non-proportional hazards function 
 
 Scenario 3 uses the following inputs:
 SNPH=0.125 
@@ -69,8 +71,6 @@ beta0=2 (intercept)
 sigma=3.5
 labmda=2.5
 
-
-simulate_datasets_PWC.R - This additional file generates simulated treatments and outcomes for patients. The functional form of the non-proportionality is a piece-wise effect (Scenario 2). Each simulated dataset is appended to a large file which will contain all simulated datasets for later processing. This code is designed to be run in batch mode.
 
 ### 3B. Run analysis methods
 
