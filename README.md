@@ -57,6 +57,18 @@ SNPH=0.25
 TE=-log(2) 
 SS=1000 
 
+Scenario 6 uses a generalized gamma distribution with the following parameters:
+TE=-log(2)
+beta0=2 (intercept)
+sigma=1.2
+labmda=-0.5
+
+Scenario 7 uses a generalized gamma distribution with the following parameters:
+TE=-log(2)
+beta0=2 (intercept)
+sigma=3.5
+labmda=2.5
+
 
 simulate_datasets_PWC.R - This additional file generates simulated treatments and outcomes for patients. The functional form of the non-proportionality is a piece-wise effect (Scenario 2). Each simulated dataset is appended to a large file which will contain all simulated datasets for later processing. This code is designed to be run in batch mode.
 
