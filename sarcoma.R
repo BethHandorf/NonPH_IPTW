@@ -4,6 +4,7 @@ library(ggplot2)
 library(muhaz)
 library(flexsurv)
 library(pseudo)
+library(twang)
 
 
 setwd("./")
@@ -58,7 +59,34 @@ p.chemo<-sum(dat$Chemo==1)/length(dat$Chemo)
 
 dat$psweight2<-(dat$Chemo*p.chemo/ps2)+((1-dat$Chemo)*(1-p.chemo)/(1-ps2))
 
+#Balance statistics 
+datatmp<-dat
+datatmp$ageCat<-as.factor(datatmp$ageCat)
+datatmp$histgrp<-as.factor(datatmp$histgrp)
+datatmp$SEX<-as.factor(datatmp$SEX)
+datatmp$RaceCat<-as.factor(datatmp$RaceCat)
+datatmp$insurance<-as.factor(datatmp$insurance)
+datatmp$income<-as.factor(datatmp$income)
+datatmp$noHSD<-as.factor(datatmp$noHSD)
+datatmp$distance<-as.factor(datatmp$distance)
+datatmp$location<-as.factor(datatmp$location)
+datatmp$charlson<-as.factor(datatmp$charlson)
+datatmp$lowgrade<-as.factor(datatmp$lowgrade)
+datatmp$sizeGrp<-as.factor(datatmp$sizeGrp)
+datatmp$YEAR_OF_DIAGNOSIS<-as.factor(datatmp$YEAR_OF_DIAGNOSIS)
+datatmp$FACILITY_LOCATION_CD<-as.factor(datatmp$FACILITY_LOCATION_CD)
+datatmp$Facility<-as.factor(datatmp$Facility)
+datatmp$site<-as.factor(datatmp$site)
 
+
+
+bal<-bal.stat(datatmp, vars=c("ageCat","histgrp","SEX","RaceCat","insurance","income","noHSD", "distance", "location",
+                                     "charlson","lowgrade","sizeGrp", "YEAR_OF_DIAGNOSIS","FACILITY_LOCATION_CD","Facility", "site")
+                   , treat.var="Chemo",
+                   w.all=datatmp$psweight2,
+                   #w.all=1, #check unweighted balance stats
+                   sampw=1,
+                   estimand="ATE",multinom=FALSE)
 
 ################### Create plots
 
