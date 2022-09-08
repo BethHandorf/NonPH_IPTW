@@ -94,7 +94,7 @@ prob.trt<-expit(logitp)
 
 #Covariate effects for survival
 design.matrix.surv<-design.matrix[,-1]
-#Potential outcomes:
+#Outcomes under both treatmetn conditions:
 design.matrix.surv.PO.0<-cbind(trt=0,design.matrix.surv)
 design.matrix.surv.PO.1<-cbind(trt=1,design.matrix.surv)
 
@@ -117,17 +117,59 @@ filename<-paste("FNPH.", FNPH, "_SNPH.", SNPH, "_TE.", round(TE_pos,2),
 colname.flag<-TRUE
 for (i in startSeed:endSeed) {
 
-  #Simulate both potential survival outcomes with seed
-  set.seed(i)
-  Time.PO.0 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
+  #Simulate survival outcomes under both treatment conditions
+  #Weibull hazard
+  if(FNPH==1){
+    set.seed(i)
+    Time.PO.0 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
                             x = as.data.frame(design.matrix.surv.PO.0),
-                            tde = c(trt = SNPH), tdefunction = "log", interval = c(1e-15, 1000))
+                            tde = c(trt = SNPH), tdefunction = "log", interval = c(1e-15, 5000))
 
-  set.seed(i)
-  Time.PO.1 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
+    set.seed(i)
+    Time.PO.1 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
                             x = as.data.frame(design.matrix.surv.PO.1),
-                            tde = c(trt = SNPH), tdefunction = "log")
+                            tde = c(trt = SNPH), tdefunction = "log", interval = c(1e-15, 5000))
+    
+    ID=Time.PO.0$id
+    timePO.0 = Time.PO.0$eventtime
+    timePO.1 = Time.PO.1$eventtime
+  }
+  
+  if(FNPH==2){
 
+    set.seed(i)
+    Time.PO.0 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
+                       x = as.data.frame(design.matrix.surv.PO.0),
+                       tde = c(trt = -1*TE), tdefunction = function(x) as.numeric(x<2),
+                       interval = c(1e-08, 5000))  #cancel out TE until time 2
+  
+    set.seed(i)
+    Time.PO.1 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
+                       x = as.data.frame(design.matrix.surv.PO.1),
+                       tde = c(trt = -1*TE), tdefunction = function(x) as.numeric(x<2),
+                       interval = c(1e-08, 5000))
+  }
+  
+  #Generalized gamma model
+  if(FNPH==3){
+    set.seed(i)
+    
+    mu1=design.matrix.surv.PO.1%*%(-1*betas.surv)
+    
+    if(Qval>.5){beta0=3.5}
+    if(Qval<.5){beta0=2}
+    
+    Time.PO.1<-rgengamma(SS,mu=beta0+mu1, sigma=rep(1.2,SS), Q=rep(Qval,SS))
+    
+    mu0=design.matrix.surv.PO.0%*%(-1*betas.surv)
+    
+    Time.PO.0<-rgengamma(SS,mu=beta0+mu0, sigma=rep(1.2,SS), Q=rep(Qval,SS))
+    
+    ID=c(1:SS)
+    timePO.0 = Time.PO.0
+    timePO.1 = Time.PO.1
+
+  }
 
   #simulate censoring time
   censtime<-runif(dim(sim.covariates)[1],min=8, max=15)
