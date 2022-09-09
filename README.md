@@ -61,14 +61,14 @@ SS=1000
 
 Scenario 6 uses a generalized gamma distribution with the following parameters:
 TE=-log(2)
-beta0=2 (intercept)
+mu=2 (intercept)
 sigma=1.2
 labmda=-0.5
 
 Scenario 7 uses a generalized gamma distribution with the following parameters:
 TE=-log(2)
-beta0=2 (intercept)
-sigma=3.5
+mu=3.5 (intercept)
+sigma=1.2
 labmda=2.5
 
 
