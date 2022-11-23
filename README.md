@@ -86,19 +86,19 @@ All disaggregated results of the simulation study are available in the folder "I
 
 These file names start with the estimand, followed by the scenario:
 
-res.2y - 2 year survival
-res.5y - 5 year survival
-res.10y - 10 year survival
-res.median - Median survival
-res.rms - restricted mean survival
+res.2y - 2 year survival  
+res.5y - 5 year survival  
+res.10y - 10 year survival  
+res.median - Median survival  
+res.rms - restricted mean survival  
 
-FNPH.1_SNPH.0.25_TE.0.69_SS.5000 - scenario 1
-FNPH.2_SNPH.0.25_TE.0.69_SS.5000 - scenario 2
-FNPH.1_SNPH.0.125_TE.0.69_SS.5000 - scenario 3
-FNPH.1_SNPH.0.25_TE.0.41_SS.5000 - scenario 4
-FNPH.1_SNPH.0.25_TE.0.69_SS.1000 - scenario 5
-FNPH.3_SNPH.0.25_TE.0.69Q-0.5_SS.5000 - scenario 6
-FNPH.3_SNPH.0.25_TE.0.69Q2.5_SS.5000 - scenario 7
+FNPH.1_SNPH.0.25_TE.0.69_SS.5000 - scenario 1  
+FNPH.2_SNPH.0.25_TE.0.69_SS.5000 - scenario 2  
+FNPH.1_SNPH.0.125_TE.0.69_SS.5000 - scenario 3  
+FNPH.1_SNPH.0.25_TE.0.41_SS.5000 - scenario 4  
+FNPH.1_SNPH.0.25_TE.0.69_SS.1000 - scenario 5  
+FNPH.3_SNPH.0.25_TE.0.69Q-0.5_SS.5000 - scenario 6  
+FNPH.3_SNPH.0.25_TE.0.69Q2.5_SS.5000 - scenario 7  
 
 So, for example, the file 
 res.2y.FNPH.1_SNPH.0.25_TE.0.69_SS.5000.csv is the results for 2 year survival for scenario 1
@@ -138,9 +138,9 @@ This file has contents summarized in Data_dictionary_sim_data.xlsx
 
 Notes for demonstration run: 
 -This code will not reproduce the results from the mansucript as it uses a synthetic sample.  
- It is included for demonstration purposes only
+ It is included for demonstration purposes only  
 -To make the run time of the demonstration reasonable, the number of bootstrap iterations 
- is set to 50.  In the paper we used 500.  This can be changed in line 166 in the file sarcoma.R
+ is set to 50.  In the paper we used 500.  This can be changed in line 166 in the file sarcoma.R  
 
 Section 5.2
 kidney.R - This file runs the analysis described in section 5.1 and creates Figure 2 and the data for Table 2.
@@ -154,14 +154,14 @@ This file has contents summarized in Data_dictionary_sim_data.xlsx
 
 Notes for demonstration run: 
 -This code will not reproduce the results from the manuscript as it uses a synthetic sample.  
- It is included for demonstration purposes only
+ It is included for demonstration purposes only  
 -The analysis presented in the code required a large amount of working memory for the pseudo
  observations approach.  to make this feasible to run on a desktop computer, this example
  analysis only uses 10% of the 32,000 samples.  The standard errors are therefore larger
  in the example run than they were in the original run.  The full sample can be used by
- commenting out line 375 and uncommenting line 377 in the execute_all_kidney.R file
+ commenting out line 375 and uncommenting line 377 in the execute_all_kidney.R file  
 -To make the run time of the demonstration reasonable, the number of bootstrap iterations 
- is set to 50.  In the paper we used 500.  This can be changed in line 180 in the file kidney.R
+ is set to 50.  In the paper we used 500.  This can be changed in line 180 in the file kidney.R  
 
 The following software was used:
 
