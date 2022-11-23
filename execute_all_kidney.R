@@ -369,25 +369,37 @@ run_Cox_KM<-function(data,d) {
   #pseudo.obs<-pseudosurv(dat$time, dat$fail) #,tmax=cutoffs)
   cutoffs<-seq(from=1/12,to=last.obs.time,by=1/12)
   cutoffs.obs<-cutoffs[cutoffs>min(dat$time[dat$fail==1]) & cutoffs<max(dat$time[dat$fail==1])]
-  pseudo.obs<-pseudosurv(dat$time, dat$fail,tmax=cutoffs.obs)
+  
+  #NOTE FOR DEMONSTRATION CODE ONLY: must select a subset of the observations unless run
+  #on a high-memory system
+  use<-rbinom(n=length(dat$time),size=1,p=0.1)
+  #For original analysis
+  #use<-rep(1, length(dat$time))
+  trt.use<-dat$trt[use==1]
+
+
+  
+  
+  cutoffs.obs<-cutoffs[cutoffs>min(dat$time[dat$fail==1 & use==1]) & cutoffs<max(dat$time[dat$fail==1& use==1])]
+  pseudo.obs<-pseudosurv(dat$time[use==1], dat$fail[use==1],tmax=cutoffs.obs)
 
 
   #get the pseudo-observations
   pseudo.obs.mat<-as.matrix(pseudo.obs$pseudo)
   #Weight them by the propensity score weights
-  pseudo.obs.mat.wt<-diag(as.numeric(dat$ps.IPTW.PO))%*%pseudo.obs.mat
+  pseudo.obs.mat.wt<-diag(as.numeric(dat$ps.IPTW.PO[use==1]))%*%pseudo.obs.mat
   #Survival at each time is the average of the weighted pseudo observations
-  S_t_0<-colSums(pseudo.obs.mat.wt[dat$trt==0,])/dim(dat)[1]
-  S_t_1<-colSums(pseudo.obs.mat.wt[dat$trt==1,])/dim(dat)[1]
+  S_t_0<-colSums(pseudo.obs.mat.wt[(trt.use==0 ),])/dim(dat[use==1,])[1]
+  S_t_1<-colSums(pseudo.obs.mat.wt[(trt.use==1),])/dim(dat[use==1,])[1]
   #Find the first time where the survival curve is <0.5
   res.median[i,1]<-min(pseudo.obs$time[S_t_0<0.5])
   res.median[i,2]<-min(pseudo.obs$time[S_t_1<0.5])
 
   #Pseudo mean - built in function
-  pseudo.RMS = pseudomean(dat$time, dat$fail,tmax=last.obs.time)
+  pseudo.RMS = pseudomean(dat$time[use==1], dat$fail[use==1],tmax=last.obs.time)
 
-  res.RMS[i,1]<-sum(pseudo.RMS[dat$trt==0]*dat$ps.IPTW.PO[dat$trt==0])/dim(dat)[1]
-  res.RMS[i,2]<-sum(pseudo.RMS[dat$trt==1]*dat$ps.IPTW.PO[dat$trt==1])/dim(dat)[1]
+  res.RMS[i,1]<-sum(pseudo.RMS[trt.use==0]*dat$ps.IPTW.PO[dat$trt==0 & use==1])/dim(dat[use==1,])[1]
+  res.RMS[i,2]<-sum(pseudo.RMS[trt.use==1]*dat$ps.IPTW.PO[dat$trt==1 & use==1])/dim(dat[use==1,])[1]
 
 
   #Survival at specific timepoints
@@ -400,15 +412,15 @@ run_Cox_KM<-function(data,d) {
   #This is just the mean of the pseudo observations
   #Applying propensity score weights
 
-  res.2y[i,1]<-sum(pseudo.obs.df$time.2[dat$trt==0]*dat$ps.IPTW.PO[dat$trt==0])/dim(dat)[1]
-  res.2y[i,2]<-sum(pseudo.obs.df$time.2[dat$trt==1]*dat$ps.IPTW.PO[dat$trt==1])/dim(dat)[1]
+  res.2y[i,1]<-sum(pseudo.obs.df$time.2[trt.use==0]*dat$ps.IPTW.PO[dat$trt==0 & use==1])/dim(dat[use==1,])[1]
+  res.2y[i,2]<-sum(pseudo.obs.df$time.2[trt.use==1]*dat$ps.IPTW.PO[dat$trt==1& use==1])/dim(dat[use==1,])[1]
 
 
-  res.5y[i,1]<-sum(pseudo.obs.df$time.5[dat$trt==0]*dat$ps.IPTW.PO[dat$trt==0])/dim(dat)[1]
-  res.5y[i,2]<-sum(pseudo.obs.df$time.5[dat$trt==1]*dat$ps.IPTW.PO[dat$trt==1])/dim(dat)[1]
+  res.5y[i,1]<-sum(pseudo.obs.df$time.5[trt.use==0]*dat$ps.IPTW.PO[dat$trt==0 & use==1])/dim(dat[use==1,])[1]
+  res.5y[i,2]<-sum(pseudo.obs.df$time.5[trt.use==1]*dat$ps.IPTW.PO[dat$trt==1 & use==1])/dim(dat[use==1,])[1]
 
-  res.10y[i,1]<-sum(pseudo.obs.df$time.10[dat$trt==0]*dat$ps.IPTW.PO[dat$trt==0])/dim(dat)[1]
-  res.10y[i,2]<-sum(pseudo.obs.df$time.10[dat$trt==1]*dat$ps.IPTW.PO[dat$trt==1])/dim(dat)[1]
+  res.10y[i,1]<-sum(pseudo.obs.df$time.10[trt.use==0]*dat$ps.IPTW.PO[dat$trt==0 & use==1])/dim(dat[use==1,])[1]
+  res.10y[i,2]<-sum(pseudo.obs.df$time.10[trt.use==1]*dat$ps.IPTW.PO[dat$trt==1 & use==1])/dim(dat[use==1,])[1]
   # 
   # #end.time<-Sys.time()
   # #print(end.time-start.time)

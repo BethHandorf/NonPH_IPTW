@@ -141,13 +141,13 @@ for (i in startSeed:endSeed) {
     set.seed(i)
     Time.PO.0 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
                        x = as.data.frame(design.matrix.surv.PO.0),
-                       tde = c(trt = -1*TE), tdefunction = function(x) as.numeric(x<2),
+                       tde = c(trt = -.25), tdefunction = function(x) as.numeric(x<2),
                        interval = c(1e-08, 5000))  #cancel out TE until time 2
   
     set.seed(i)
     Time.PO.1 <- simsurv(lambdas = .1, gammas = 0.8, betas =betas.surv,
                        x = as.data.frame(design.matrix.surv.PO.1),
-                       tde = c(trt = -1*TE), tdefunction = function(x) as.numeric(x<2),
+                       tde = c(trt = -.25), tdefunction = function(x) as.numeric(x<2),
                        interval = c(1e-08, 5000))
   }
   

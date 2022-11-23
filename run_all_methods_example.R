@@ -43,9 +43,9 @@ start.time<-Sys.time()
 
 dfile<-"FNPH.1_SNPH.0.25_TE.-0.69_SS.5000_seedRange.1-5.csv"
 seed=5   #For example run, 1-5 will work for seed
-#setwd("U:\\methods work\\propensity scores with non-proportional hazards\\BiometricalJ_submission\\code")
+setwd("..")
    
-#resdir<-"U:\\methods work\\propensity scores with non-proportional hazards\\BiometricalJ_submission\\code"
+resdir<-"./"
 
 #Change the directory as needed
 setwd("./")
@@ -148,7 +148,16 @@ names(res.med.all)<-names(res.rms.all)<-names(res.2y.all)<-
 
 #Only read in the sample we are using for this itteration
 dataj<-read.csv(dfile, nrows=5000, skip=5000*(seed-1)+1, header=FALSE)
-names(dataj)<-c("X","itter","ID","trt","timePO.0","timePO.1","censtime","eventtime","time","fail")
+
+#Rename the data files as needed
+if(dim(dataj)[2]==10){
+  names(dataj)<-c("X","itter","ID","trt","timePO.0","timePO.1","censtime","eventtime","time","fail")
+}
+if(dim(dataj)[2]==9){
+  names(dataj)<-c("itter","ID","trt","timePO.0","timePO.1","censtime","eventtime","time","fail")
+}
+
+
 dim(dataj)
 print(dataj[1:10,])
 print(dataj[4990:5000,])
@@ -191,8 +200,8 @@ colnames(true.Potential.outcomes)<-c("untreated","treated","diff")
 
 #list of all methods used to generate estimates
 
-#NUA=Naïve unadjusted	
-#NCM=Naïve cox model (weighted no TV covariate)	
+#NUA=Naove unadjusted	
+#NCM=Naove cox model (weighted no TV covariate)	
 #WKM=weighted KM	
 #CVT_LT=Cox model with linear effect of log-time	
 #CTV_LPW=Cox model with linear piecewise effect

@@ -4,19 +4,19 @@ library(ggplot2)
 library(muhaz)
 library(flexsurv)
 library(pseudo)
-
+library(twang)
 
 setwd("./")
 
-dat<-read.csv("ps_data.csv",header=T)
+dat<-read.csv("kidney_sim_set.csv",header=T)
 
 #Just use T1a disease
-dat<-dat[dat$Stg_grp=="T1a",]
+#dat<-dat[dat$Stg_grp=="T1a",]
 
-dat$surgery<-as.numeric(dat$surgery=="PN")
+#dat$surgery<-as.numeric(dat$surgery=="PN")
 
 #limit to 75+
-dat<-dat[dat$AGE>50&dat$AGE<=60,]
+#dat<-dat[dat$AGE>50&dat$AGE<=60,]
 
 #limit to 10 years of follow-up
 dat$DX_LASTCONTACT_DEATH_MONTHS[dat$DX_LASTCONTACT_DEATH_MONTHS>120]<-120
@@ -51,7 +51,13 @@ reg<-coxph(Surv(DX_LASTCONTACT_DEATH_MONTHS, PUF_VITAL_STATUS==0)~ surgery, data
 
 cox.zph(reg)
 
+dat<-dat[!is.na(dat$DX_LASTCONTACT_DEATH_MONTHS),]
 
+#dat<-dat[dat$DX_LASTCONTACT_DEATH_MONTHS>0,]
+#died.ind<-as.numeric(dat$PUF_VITAL_STATUS==0)
+#dat$time<-dat$DX_LASTCONTACT_DEATH_MONTHS/12
+#aft.wbl.mod.L.S<-flexsurvreg(Surv(time,died.ind)~as.factor(surgery),anc = list(shape = ~ as.factor(surgery)),
+#                             data=dat,  dist="weibull")
 
 
 #######Propensity score analysis for surgery 
@@ -99,9 +105,11 @@ bal<-bal.stat(datatmp, vars=c("FACILITY_TYPE_CD","FACILITY_LOCATION_CD","SEX","I
               sampw=1,
               estimand="ATE",multinom=FALSE)
 
-write.csv(dat)
+bal
 
 ################### Create Figure 3
+
+png("Tables_graphs/Figure_3_mock_results.png")
 
 #Graphs for pub
 layout(matrix(c(1,2,3,3), 2, 2, byrow = TRUE))
@@ -128,6 +136,8 @@ plot(s.obj,lty=c(1,2),xlab="Months",mark.time=F,lwd=2,
 legend("bottomleft",c("Radical ","Partial"), 
        lwd=2, lty=c(1,2))
 
+
+dev.off()
 
 # Create dataset used for analysis by the IPTW method code
 # file is modified to use relevant variables here
@@ -166,7 +176,8 @@ estimates
 #Now create confidence limits
 
 #number of bootstrap replicates
-M<-500
+#In the paper this used 500.  Using 50 here to make the demo run in a reasonable time
+M<-50
 
 #Save matrices of bootstrap output
 d.med.boot<-d.rms.boot<-d.2y.boot<-d.5y.boot<-d.10y.boot<-matrix(rep(NA,M*9),nrow=M)
@@ -195,6 +206,17 @@ d.2y.CL<-apply(d.2y.boot, 2, quantile, probs = c(0.025, 0.975),na.rm=TRUE)
 d.5y.CL<-apply(d.5y.boot, 2, quantile, probs = c(0.025, 0.975),na.rm=TRUE)
 d.10y.CL<-apply(d.10y.boot, 2, quantile, probs = c(0.025, 0.975))
 
-cbind(estimates[[2]],t(d.rms.CL))
-cbind(estimates[[3]],t(d.2y.CL))
-cbind(estimates[[4]],t(d.5y.CL))
+sum.rms<-cbind(estimates[[2]],t(d.rms.CL))
+sum.2y<-cbind(estimates[[3]],t(d.2y.CL))
+sum.5y<-cbind(estimates[[4]],t(d.5y.CL))
+
+#Create Table 3
+Table3<-cbind(sum.rms[c(2,4,5,6,7,3,9),3:5],
+      sum.2y[c(2,4,5,6,7,3,9),3:5],
+      sum.5y[c(2,4,5,6,7,3,9),3:5])
+
+colnames(Table3)<-c("RMS Delta","RMS LCL","RMS UCL","2y Delta","2y LCL","2y UCL","5y Delta","5y LCL","5y UCL")
+rownames(Table3)<-c("Cox","TV Cox: log-T", "TV Cox: PWC", "AFT Gen Gamma", "AFT Wbl TV shape", "Weighted K-M", "Pseudo-obs")
+
+Table3<-as.data.frame(Table3)
+write.csv(Table3, "Tables_graphs/Table3_mock_results.csv")

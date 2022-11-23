@@ -1,0 +1,60 @@
+column,Varname,Description
+1,TruePO_Z0,the actual simulated result under control condition
+2,TruePO_Z1,the actual simulated result under treatment condition
+3,TruePO_diff,the difference between control and treatments (truth)
+4,NUA_Z0,Estimated result under control condition using a naïve unadjusted KM curve
+5,NUA_Z1,Estimated result under treatment condition using a naïve unadjusted KM curve
+6,NUA_diff,Difference between treatment and control (primary outcome of interest) using a naïve unadjusted KM curve
+7,NUA_bias,Bias (difference between truth and estimate) using a naïve unadjusted KM curve
+8,NUA_cov,Whether the 95% CI contained the truth (binary indicator) using a naïve unadjusted KM curve
+9,NUA_var,Bootstrap variance estimate using a naïve unadjusted KM curve
+10,NUA_sig,Significance test (indicator) using a naïve unadjusted KM curve
+11,NCM_Z0,Estimated result under control condition using a naïve Cox model
+12,NCM_Z1,Estimated result under treatment condition using a naïve Cox model
+13,NCM_diff,Difference between treatment and control (primary outcome of interest) using a naïve Cox model
+14,NCM_bias,Bias (difference between truth and estimate) using a naïve Cox model
+15,NCM_cov,Whether the 95% CI contained the truth (binary indicator) using a naïve Cox model
+16,NCM_var,Bootstrap variance estimate using a naïve Cox model
+17,NCM_sig,Significance test (indicator) using a naïve Cox model
+18,WKM_Z0,Estimated result under control condition using the weighted Kaplan-Meier method
+19,WKM_Z1,Estimated result under treatment condition using the weighted Kaplan-Meier method
+20,WKM_diff,Difference between treatment and control (primary outcome of interest) using the weighted Kaplan-Meier method
+21,WKM_bias,Bias (difference between truth and estimate) using the weighted Kaplan-Meier method
+22,WKM_cov,Whether the 95% CI contained the truth (binary indicator) using the weighted Kaplan-Meier method
+23,WKM_var,Bootstrap variance estimate using the weighted Kaplan-Meier method
+24,WKM_sig,Significance test (indicator) using the weighted Kaplan-Meier method
+25,CTV.LT_Z0,Estimated result under control condition using a Cox model with a time-varying effect (log-time)
+26,CTV.LT_Z1,Estimated result under treatment condition using a Cox model with a time-varying effect (log-time)
+27,CTV.LT_diff,Difference between treatment and control (primary outcome of interest) using a Cox model with a time-varying effect (log-time)
+28,CTV.LT_bias,Bias (difference between truth and estimate) using a Cox model with a time-varying effect (log-time)
+29,CTV.LT_cov,Whether the 95% CI contained the truth (binary indicator) using a Cox model with a time-varying effect (log-time)
+30,CTV.LT_var,Bootstrap variance estimate using a Cox model with a time-varying effect (log-time)
+31,CTV.LT_sig,Significance test (indicator) using a Cox model with a time-varying effect (log-time)
+32,CTV.LPW_Z0,Estimated result under control condition using a Cox model with a time-varying effect (linear piecewise)
+33,CTV.LPW_Z1,Estimated result under treatment condition using a Cox model with a time-varying effect (linear piecewise)
+34,CTV.LPW_diff,Difference between treatment and control (primary outcome of interest) using a Cox model with a time-varying effect (linear piecewise)
+35,CTV.LPW_bias,Bias (difference between truth and estimate) using a Cox model with a time-varying effect (linear piecewise)
+36,CTV.LPW_cov,Whether the 95% CI contained the truth (binary indicator) using a Cox model with a time-varying effect (linear piecewise)
+37,CTV.LPW_var,Bootstrap variance estimate using a Cox model with a time-varying effect (linear piecewise)
+38,CTV.LPW_sig,Significance test (indicator) using a Cox model with a time-varying effect (linear piecewise)
+39,AFT.GG_Z0,Estimated result under control condition using a Generalized Gamma AFT model
+40,AFT.GG_Z1,Estimated result under treatment condition using a Generalized Gamma AFT model
+41,AFT.GG_diff,Difference between treatment and control (primary outcome of interest) using a Generalized Gamma AFT model
+42,AFT.GG_bias,Bias (difference between truth and estimate) using a Generalized Gamma AFT model
+43,AFT.GG_cov,Whether the 95% CI contained the truth (binary indicator) using a Generalized Gamma AFT model
+44,AFT.GG_var,Bootstrap variance estimate using a Generalized Gamma AFT model
+45,AFT.GG_sig,Significance test (indicator) using a Generalized Gamma AFT model
+46,AFT.WBL.LS_Z0,Estimated result under control condition using a 3-parameter Weibull model
+47,AFT.WBL.LS_Z1,Estimated result under treatment condition using a 3-parameter Weibull model
+48,AFT.WBL.LS_diff,Difference between treatment and control (primary outcome of interest) using a 3-parameter Weibull model
+49,AFT.WBL.LS_bias,Bias (difference between truth and estimate) using a 3-parameter Weibull model
+50,AFT.WBL.LS_cov,Whether the 95% CI contained the truth (binary indicator) using a 3-parameter Weibull model
+51,AFT.WBL.LS_var,Bootstrap variance estimate using a 3-parameter Weibull model
+52,AFT.WBL.LS_sig,Significance test (indicator) using a 3-parameter Weibull model
+53,PO_Z0,Estimated result under control condition using the Pseudo-observations method
+54,PO_Z1,Estimated result under treatment condition using the Pseudo-observations method
+55,PO_diff,Difference between treatment and control (primary outcome of interest) using the Pseudo-observations method
+56,PO_bias,Bias (difference between truth and estimate) using the Pseudo-observations method
+57,PO_cov,Whether the 95% CI contained the truth (binary indicator) using the Pseudo-observations method
+58,PO_var,Bootstrap variance estimate using the Pseudo-observations method
+59,PO_sig,Significance test (indicator) using the Pseudo-observations method

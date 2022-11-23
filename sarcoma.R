@@ -9,7 +9,7 @@ library(twang)
 
 setwd("./")
 
-dat<-read.csv("R:\\NCDB\\sarcoma\\sarcoma 2012\\sarcomasurv.csv", header=T)
+dat<-read.csv("sarcoma_sim_set.csv", header=T)
 
 # survival plots
 s.obj<-survfit(Surv(DX_LASTCONTACT_DEATH_MONTHS, PUF_VITAL_STATUS==0)~Chemo,data=dat)
@@ -48,6 +48,7 @@ cox.zph(multiple.regression)
 
 
 
+
 #######Propensity score analysis for Chemo across all histologies
 
 ps.mod<-glm(Chemo~ ageCat+histgrp+as.factor(SEX)+RaceCat+ insurance+income+ noHSD+ distance+ location+
@@ -79,7 +80,6 @@ datatmp$Facility<-as.factor(datatmp$Facility)
 datatmp$site<-as.factor(datatmp$site)
 
 
-
 bal<-bal.stat(datatmp, vars=c("ageCat","histgrp","SEX","RaceCat","insurance","income","noHSD", "distance", "location",
                                      "charlson","lowgrade","sizeGrp", "YEAR_OF_DIAGNOSIS","FACILITY_LOCATION_CD","Facility", "site")
                    , treat.var="Chemo",
@@ -98,10 +98,12 @@ s.obj<-survfit(Surv(DX_LASTCONTACT_DEATH_MONTHS, PUF_VITAL_STATUS==0)~Chemo,data
 s.obj
 plot(s.obj,col=c("firebrick4","navy"),xlab="Months",mark.time=F,lwd=2,
      main="All histologies", ylab="Survival")
-legend("topright",c("No chemo (N=3883)","Chemo (N=1494)"), 
+legend("topright",c("No chemo ","Chemo "), 
        lwd=2, lty=1, col=c("firebrick4","navy"))
 
 
+
+png("Tables_graphs/Figure_2_mock_results.png")
 
 #Graphs for pub
 
@@ -124,6 +126,8 @@ plot(s.obj,lty=c(1,2),xlab="Months",mark.time=F,lwd=2,
      main="IPTW", ylab="Survival")
 legend("topright",c("No chemo","Chemo"), 
        lwd=2, lty=c(1,2))
+
+dev.off()
 
 
 # Create dataset used for analysis by the IPTW method code
@@ -159,7 +163,7 @@ estimates
 #Now create confidence limits
 
 #number of bootstrap replicates
-M<-500
+M<-50
 
 #Save matrices of bootstrap output
 d.med.boot<-d.rms.boot<-d.2y.boot<-d.5y.boot<-d.10y.boot<-matrix(rep(NA,M*8),nrow=M)
@@ -178,8 +182,24 @@ for (j in 1:M) {
 }
 
 
-d.med.CL<-apply(d.med.boot, 2, quantile, probs = c(0.025, 0.975))
+#d.med.CL<-apply(d.med.boot, 2, quantile, probs = c(0.025, 0.975))
 d.rms.CL<-apply(d.rms.boot, 2, quantile, probs = c(0.025, 0.975))
 d.2y.CL<-apply(d.2y.boot, 2, quantile, probs = c(0.025, 0.975))
 d.5y.CL<-apply(d.5y.boot, 2, quantile, probs = c(0.025, 0.975))
 #d.10y.CL<-apply(d.10y.boot, 2, quantile, probs = c(0.025, 0.975))
+
+
+sum.rms<-cbind(estimates[[2]],t(d.rms.CL))
+sum.2y<-cbind(estimates[[3]],t(d.2y.CL))
+sum.5y<-cbind(estimates[[4]],t(d.5y.CL))
+
+#Create Table 2
+Table2<-cbind(sum.rms[c(2,4,5,6,7,3,8),3:5],
+              sum.2y[c(2,4,5,6,7,3,8),3:5],
+              sum.5y[c(2,4,5,6,7,3,8),3:5])
+
+colnames(Table2)<-c("RMS Delta","RMS LCL","RMS UCL","2y Delta","2y LCL","2y UCL","5y Delta","5y LCL","5y UCL")
+rownames(Table2)<-c("Cox","TV Cox: log-T", "TV Cox: PWC", "AFT Gen Gamma", "AFT Wbl TV shape", "Weighted K-M", "Pseudo-obs")
+
+Table2<-as.data.frame(Table2)
+write.csv(Table2, "Tables_graphs/Table2_mock_results.csv")

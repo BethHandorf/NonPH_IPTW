@@ -4,15 +4,15 @@ library(reshape2)
 library(grid)
 library(gridExtra)
 #library(wesanderson)
-library(khroma)
+#library(khroma)
 library(NatParksPalettes)
 
 setwd("./")
-setwd("U://methods work//propensity scores with non-proportional hazards//BiometricalJ_submission//code//")
+
 
 #### Bias graphs
 
-restmp<-read.csv("Bias_results_graph_input.csv")
+restmp<-read.csv("Tables_graphs/Fig1_input_bias.csv")
 
 res<-melt(restmp, id.vars = c("Scenario", "Method"))
 names(res)<-c("Scenario","Method","Outcome","Bias")
@@ -49,6 +49,8 @@ p<-ggplot(data=res, aes(x=Scenario, y=Bias, fill=Scenario)) +
 
 print(p)
 
+
+
 #muted <- colour("muted")
 
 p<-ggplot(data=res, aes(x=Method, y=Bias, fill=Method)) +
@@ -62,10 +64,14 @@ p<-ggplot(data=res, aes(x=Method, y=Bias, fill=Method)) +
   scale_fill_manual(values=natparks.pals("DeathValley", 7))
 
 print(p)
+
+png("Tables_graphs/Figure1.png")
+print(p)
+dev.off()
 ##### Variance graphs
 
 
-restmp<-read.csv("Var_results_graph_input.csv")
+restmp<-read.csv("Tables_graphs/FigA1_input_var.csv")
 
 res<-melt(restmp, id.vars = c("Scenario", "Method"))
 names(res)<-c("Scenario","Method","Outcome","Variance")
@@ -113,3 +119,6 @@ p<-ggplot(data=res, aes(x=Method, y=SE, fill=Method)) +
 
 print(p)
 
+png("Tables_graphs/FigureA1.png")
+print(p)
+dev.off()
