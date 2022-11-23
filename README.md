@@ -143,6 +143,7 @@ Notes for demonstration run:
  is set to 50.  In the paper we used 500.  This can be changed in line 166 in the file sarcoma.R  
 
 Section 5.2
+
 kidney.R - This file runs the analysis described in section 5.1 and creates Figure 2 and the data for Table 2.
 
 execute_all_kidney.R - This R code obtains estimates of survival outcomes using each of the methods described in the manuscript, with specific inputs and covariates for the renal example.
