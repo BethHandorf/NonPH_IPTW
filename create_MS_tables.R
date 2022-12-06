@@ -3,7 +3,7 @@
 #This code takes a result file, summarizes it, and pulls out the summarized results presented in the manuscript
 
 
-setwd("/")
+setwd("./")
 
 
 dict<-read.csv("Intermediate_results/Simulations_intermediate_results_data_dictionary.csv", header=TRUE)
@@ -110,8 +110,8 @@ for ( i in 1:5) {
     #Note: the order here is the order in which the results appear in the manuscript
   
     cov.tmp<-res.sum[c("NCM_cov",
-                       "CTV.LPW_cov",
                        "CTV.LT_cov",
+                       "CTV.LPW_cov",
                        "AFT.GG_cov",
                        "AFT.WBL.LS_cov",
                        "PO_cov",
@@ -140,8 +140,8 @@ bias.res<-cbind.data.frame(
   
   Method=rep(c("AFT.GG",
                "AFT.WBL.LS",
-               "CTV.LT",
                "CTV.LPW",
+               "CTV.LT",
                "NCM",
                "NUA",
                "PO",
