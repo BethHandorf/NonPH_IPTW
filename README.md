@@ -117,7 +117,7 @@ Fig1_input_bias.csv - this file contains the numerical results used to create Fi
 
 FigA1_input_var.csv - this file contains the numerical results used to create Figure A1
 
-results_graphs_v2.R - this R code creates Figure 1 and Figure A1
+results_graphs.R - this R code creates Figure 1 and Figure A1
 
 
 
